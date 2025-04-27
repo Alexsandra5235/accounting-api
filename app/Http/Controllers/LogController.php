@@ -7,8 +7,10 @@ use App\Models\Logs\Log;
 use App\Services\LogDischargeService;
 use App\Services\LogService;
 use Exception;
+use http\Env\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\String\Exception\ExceptionInterface;
@@ -63,9 +65,10 @@ class LogController extends Controller
             return redirect()->back()->withErrors(['error_update' => $e->getMessage()]);
         }
     }
-    public function findAll(): Collection
+    public function findAll(): JsonResponse
     {
-        return app(LogService::class)->findAll();
+        $logs = app(LogService::class)->findAll();
+        return response()->json($logs);
     }
     public function findById(int $id): View|RedirectResponse
     {

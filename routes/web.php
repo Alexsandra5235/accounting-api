@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/user/token',[ApiTokenController::class, 'createToken'])->name('create.token');
+    Route::get('/token',[ApiTokenController::class, 'getToken'])->name('token');
 });
 
 require __DIR__.'/auth.php';

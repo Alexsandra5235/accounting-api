@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\Api\ApiTokenService;
 use Exception;
+use http\Env\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -22,11 +23,19 @@ class ApiTokenController extends Controller
     {
         try {
             $user = User::all()->findOrFail(Auth::id());
-            Log::info('token ' . app(ApiTokenService::class)->createToken($user));
             return redirect()->back()->with('token', app(ApiTokenService::class)->createToken($user));
         } catch (Exception $exception) {
-            Log::error($exception->getMessage());
             return redirect()->back()->withErrors(['error_token' => $exception->getMessage()]);
+        }
+    }
+
+    public function getToken(): JsonResponse
+    {
+        try {
+            $user = User::all()->findOrFail(Auth::id());
+            return response()->json(['token' => app(ApiTokenService::class)->createToken($user)]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()]);
         }
     }
 }
