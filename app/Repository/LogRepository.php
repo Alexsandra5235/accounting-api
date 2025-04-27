@@ -101,7 +101,15 @@ class LogRepository implements LogInterface, DeleteInterface
      */
     public function findAll(): Collection
     {
-        return Log::all();
+        return Log::with([
+            'patient',
+            'log_receipt',
+            'log_discharge',
+            'log_reject',
+            'patient.diagnosis',
+            'patient.diagnosis.state',
+            'patient.diagnosis.wound',
+        ])->get();
     }
 
     /**
@@ -110,6 +118,6 @@ class LogRepository implements LogInterface, DeleteInterface
      */
     public function findById(int $id): Model
     {
-        return $this->findByIdLog($id, Log::class);
+        return $this->findLog($id);
     }
 }

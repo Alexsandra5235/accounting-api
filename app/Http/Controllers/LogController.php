@@ -31,7 +31,7 @@ class LogController extends Controller
             $log = app(LogService::class)->create($request);
             return response()->json($log);
         } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()]);
+            return response()->json(['error' => $exception->getMessage()], 400);
         }
 
     }
@@ -76,7 +76,7 @@ class LogController extends Controller
             $log = app(LogService::class)->findById($id);
             return response()->json($log);
         } catch (Exception $exception){
-            return response()->json(['error' => $exception->getMessage()]);
+            return response()->json(['error' => $exception->getMessage()], 400);
         }
     }
     public function edit(int $id): View|RedirectResponse

@@ -2,6 +2,7 @@
 
 namespace app\Traits;
 
+use App\Models\Logs\Log;
 use App\Models\Logs\LogReceipt;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,23 @@ trait HasLog
     {
         try {
             return $modelClass::query()->findOrFail($id);
+        } catch (ModelNotFoundException $exception) {
+            throw new ModelNotFoundException("Record with id = {$id} not found");
+        }
+    }
+
+    public function findLog(int $id): Model
+    {
+        try {
+            return Log::query()->findOrFail($id)->load([
+                'patient',
+                'log_receipt',
+                'log_discharge',
+                'log_reject',
+                'patient.diagnosis',
+                'patient.diagnosis.state',
+                'patient.diagnosis.wound',
+            ]);
         } catch (ModelNotFoundException $exception) {
             throw new ModelNotFoundException("Record with id = {$id} not found");
         }
