@@ -48,21 +48,21 @@ class LogController extends Controller
             return redirect()->back()->withErrors(['error_delete' => $exception->getMessage()]);
         }
     }
-    public function update(int $id, Request $request): RedirectResponse
+    public function update(int $id, Request $request): JsonResponse
     {
-        $request->validate([
-            'date_receipt' => ['required'],
-            'time_receipt' => ['required'],
-            'name' => ['required'],
-            'gender' => ['required'],
-            'birth_day' => ['required'],
-            'medical_card' => ['required'],
-        ]);
         try {
+            $request->validate([
+                'date_receipt' => ['required'],
+                'time_receipt' => ['required'],
+                'name' => ['required'],
+                'gender' => ['required'],
+                'birth_day' => ['required'],
+                'medical_card' => ['required'],
+            ]);
             app(LogService::class)->update($id, $request);
-            return redirect()->route('dashboard');
+            return response()->json(['message' => 'Log updated successfully']);
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error_update' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()],400);
         }
     }
     public function findAll(): JsonResponse
