@@ -70,13 +70,13 @@ class LogController extends Controller
         $logs = app(LogService::class)->findAll();
         return response()->json($logs);
     }
-    public function findById(int $id): View|RedirectResponse
+    public function findById(int $id): JsonResponse
     {
         try {
             $log = app(LogService::class)->findById($id);
-            return view('log.logShow', compact('log'));
+            return response()->json($log);
         } catch (Exception $exception){
-            return redirect()->route('dashboard')->withErrors(['error_show' => $exception->getMessage()]);
+            return response()->json(['error' => $exception->getMessage()]);
         }
     }
     public function edit(int $id): View|RedirectResponse

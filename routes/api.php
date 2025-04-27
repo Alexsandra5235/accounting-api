@@ -10,6 +10,7 @@ Route::get('/user', function () {
 })->middleware(['auth:sanctum']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/log/all', [LogController::class, 'findAll'])->name('user.all');
+    Route::get('/log/all', [LogController::class, 'findAll'])->name('log.all');
+    Route::get('/log/{id}', [LogController::class, 'findById'])->name('log');
 });
 
