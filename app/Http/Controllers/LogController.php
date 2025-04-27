@@ -39,13 +39,13 @@ class LogController extends Controller
     /**
      * @throws Exception
      */
-    public function destroy(int $id): bool|string
+    public function destroy(int $id): JsonResponse
     {
         try {
             app(LogService::class)->destroy($id);
-            return redirect()->back();
+            return response()->json(['success' => 'Log deleted successfully.']);
         } catch (Exception $exception) {
-            return redirect()->back()->withErrors(['error_delete' => $exception->getMessage()]);
+            return response()->json(['error' => $exception->getMessage()], 400);
         }
     }
     public function update(int $id, Request $request): JsonResponse

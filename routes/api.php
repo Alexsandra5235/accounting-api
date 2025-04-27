@@ -14,5 +14,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/log/{id}', [LogController::class, 'findById'])->name('log');
     Route::post('/log', [LogController::class, 'store'])->name('log.store');
     Route::put('/log/{id}', [LogController::class, 'update'])->name('log.update');
+    Route::delete('/log/{id}', [LogController::class, 'destroy'])->name('log.destroy');
 });
 
