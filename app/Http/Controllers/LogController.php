@@ -7,7 +7,7 @@ use App\Models\Logs\Log;
 use App\Services\LogDischargeService;
 use App\Services\LogService;
 use Exception;
-use http\Env\Response;
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +29,12 @@ class LogController extends Controller
                 'medical_card' => ['required'],
             ]);
             $log = app(LogService::class)->create($request);
-            return response()->json($log);
+            return response()->json($log->load([
+                'log_receipt',
+                'log_discharge',
+                'log_reject',
+                'patient',
+            ]));
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 400);
         }
@@ -79,17 +84,9 @@ class LogController extends Controller
             return response()->json(['error' => $exception->getMessage()], 400);
         }
     }
-    public function edit(int $id): View|RedirectResponse
+    public function findByName(Request $request): JsonResponse
     {
-        try {
-            $log = app(LogService::class)->findById($id);
-            return view('log.logEdit', compact('log'));
-        } catch (Exception $exception){
-            return redirect()->route('dashboard')->withErrors(['error_edit' => $exception->getMessage()]);
-        }
-    }
-    public function add() : View
-    {
-        return view('log.logAdd');
+        $logs = app(LogService::class)->findByName($request);
+        return response()->json($logs);
     }
 }

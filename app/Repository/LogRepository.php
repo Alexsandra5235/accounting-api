@@ -120,4 +120,19 @@ class LogRepository implements LogInterface, DeleteInterface
     {
         return $this->findLog($id);
     }
+
+    public function findByName(string $name): Collection
+    {
+        return Log::query()->with([
+            'patient',
+            'log_receipt',
+            'log_discharge',
+            'log_reject',
+            'patient.diagnosis',
+            'patient.diagnosis.state',
+            'patient.diagnosis.wound',
+        ])->whereHas('patient', function ($query) use ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        })->get();
+    }
 }

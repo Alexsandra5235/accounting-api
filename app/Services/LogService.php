@@ -65,4 +65,11 @@ class LogService
     {
         return app(LogRepository::class)->findByID($id);
     }
+    public function findByName(Request $request): Collection
+    {
+        if ($request->input('search_name') != null){
+            return app(LogRepository::class)->findByName($request->input('search_name'));
+        }
+        return $this->findAll();
+    }
 }

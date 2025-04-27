@@ -32,4 +32,5 @@ interface LogInterface
 
     public function findAll(): Collection;
     public function findById(int $id): Model;
+    public function findByName(string $name): Collection;
 }
