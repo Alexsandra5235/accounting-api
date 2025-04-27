@@ -1,18 +1,23 @@
 <?php
 
-use App\Http\Controllers\LogController;
+use App\Http\Controllers\ProfileController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/log',[LogController::class, 'store'])->name('log.store');
-Route::delete('/log/{id}',[LogController::class, 'destroy'])->name('log.destroy');
-Route::get('/log/{id}/update',[LogController::class, 'edit'])->name('log.edit');
-Route::put('/log/{id}',[LogController::class, 'update'])->name('log.update');
-Route::get('/logs', [LogController::class, 'findAll'])->name('logs');
-Route::get('/log/{id}', [LogController::class, 'findById'])->name('log.find');
-Route::get('/log', [LogController::class, 'add'])->name('log.add');
+Route::get('/dashboard', function () {
+    $tokens = User::all()->findOrFail(Auth::id())->tokens;
+    return view('dashboard', compact('tokens'));
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-require base_path('routes/api.php');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
