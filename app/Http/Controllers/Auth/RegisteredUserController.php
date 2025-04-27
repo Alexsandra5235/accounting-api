@@ -40,7 +40,6 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->createToken('my_token');
 
         event(new Registered($user));
 

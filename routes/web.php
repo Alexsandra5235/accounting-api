@@ -10,8 +10,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $tokens = User::all()->findOrFail(Auth::id())->tokens;
-    return view('dashboard', compact('tokens'));
+    $token = User::all()->findOrFail(Auth::id())->createToken('my-api-token')->plainTextToken;
+    return view('dashboard', compact('token'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
