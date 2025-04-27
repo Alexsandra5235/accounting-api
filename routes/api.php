@@ -12,5 +12,6 @@ Route::get('/user', function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/log/all', [LogController::class, 'findAll'])->name('log.all');
     Route::get('/log/{id}', [LogController::class, 'findById'])->name('log');
+    Route::post('/log', [LogController::class, 'store'])->name('log.store');
 });
 

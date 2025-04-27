@@ -17,21 +17,21 @@ use Symfony\Component\String\Exception\ExceptionInterface;
 
 class LogController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
-        $request->validate([
-            'date_receipt' => ['required'],
-            'time_receipt' => ['required'],
-            'name' => ['required'],
-            'gender' => ['required'],
-            'birth_day' => ['required'],
-            'medical_card' => ['required'],
-        ]);
         try {
-            app(LogService::class)->create($request);
-            return redirect()->route('dashboard');
+            $request->validate([
+                'date_receipt' => ['required'],
+                'time_receipt' => ['required'],
+                'name' => ['required'],
+                'gender' => ['required'],
+                'birth_day' => ['required'],
+                'medical_card' => ['required'],
+            ]);
+            $log = app(LogService::class)->create($request);
+            return response()->json($log);
         } catch (Exception $exception) {
-            return redirect()->back()->withErrors(['error_store' => $exception->getMessage()]);
+            return response()->json(['error' => $exception->getMessage()]);
         }
 
     }
