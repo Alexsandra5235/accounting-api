@@ -10,21 +10,19 @@ use app\Traits\HasLog;
 use Exception;
 use Illuminate\Http\Request;
 
+/**
+ * Работа с данными класса Classifiers
+ */
 class ClassifiersRepository implements ClassifiersInterface, DeleteInterface
 {
     use HasLog;
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
-     * @param int $id
-     * @return bool
-     * @throws Exception
+     * Удаление записи
+     * @param int $id Индификатор записи, которую
+     * необходимо удалить
+     * @return bool Возвращается true в случае успеха
+     * @throws Exception В случае неудачи будет выброшено исключение
      */
     public function destroy(int $id): bool
     {
@@ -36,8 +34,9 @@ class ClassifiersRepository implements ClassifiersInterface, DeleteInterface
     }
 
     /**
-     * @param Request $request
-     * @return Classifiers
+     * Создание диагноза
+     * @param Request $request Данные из запроса
+     * @return Classifiers Возвращается созданный объект
      */
     public function createState(Request $request): Classifiers
     {
@@ -48,8 +47,9 @@ class ClassifiersRepository implements ClassifiersInterface, DeleteInterface
     }
 
     /**
-     * @param Request $request
-     * @return Classifiers
+     * Создание причины травмы
+     * @param Request $request Данные из запроса
+     * @return Classifiers Возвращается созданный объект
      */
     public function createWound(Request $request): Classifiers
     {
@@ -60,10 +60,12 @@ class ClassifiersRepository implements ClassifiersInterface, DeleteInterface
     }
 
     /**
-     * @param Diagnosis $diagnosis
-     * @param Request $request
-     * @return bool
-     * @throws Exception
+     * Поиск диагноза через передаваемый параметр и его обновление
+     * @param Diagnosis $diagnosis Объект, данные диагноза которого
+     * необходимо обновить
+     * @param Request $request Данные из запроса
+     * @return bool В случае успеха вернется true
+     * @throws Exception В случае неудачи будет выброшено исключение
      */
     public function updateState(Diagnosis $diagnosis, Request $request): bool
     {
@@ -80,10 +82,12 @@ class ClassifiersRepository implements ClassifiersInterface, DeleteInterface
     }
 
     /**
-     * @param Diagnosis $diagnosis
-     * @param Request $request
-     * @return bool
-     * @throws Exception
+     * Поиск причины травмы через передаваемый параметр и ее обновление
+     * @param Diagnosis $diagnosis Объект, данные причины травмы которого
+     * необходимо обновить
+     * @param Request $request Данные из запроса
+     * @return bool В случае успеха вернутся true
+     * @throws Exception В случае неудачи будет выброшено исключение
      */
     public function updateWound(Diagnosis $diagnosis, Request $request): bool
     {

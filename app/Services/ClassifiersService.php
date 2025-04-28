@@ -8,26 +8,36 @@ use App\Repository\ClassifiersRepository;
 use Exception;
 use Illuminate\Http\Request;
 
+/**
+ * Сервис для работы с моделью Classifiers
+ */
 class ClassifiersService
 {
     /**
-     * Create a new class instance.
+     * Добавление диагноза болезни
+     * @param Request $request Данные из запроса
+     * @return Classifiers Возвращает созданный объект
      */
-    public function __construct()
-    {
-        //
-    }
     public function createState(Request $request): Classifiers
     {
         return app(ClassifiersRepository::class)->createState($request);
     }
+
+    /**
+     * Создание причины травмы
+     * @param Request $request Данные из запроса
+     * @return Classifiers Возвращает созданный объект
+     */
     public function createWound(Request $request): Classifiers
     {
         return app(ClassifiersRepository::class)->createWound($request);
     }
 
     /**
-     * @throws Exception
+     * Поиск записи по id и ее удаление
+     * @param int $id Индификатор записи
+     * @return bool Вернет true в случае успеха
+     * @throws Exception Выбросит исключение в случае неудачи
      */
     public function destroy(int $id): bool
     {
@@ -39,7 +49,11 @@ class ClassifiersService
     }
 
     /**
-     * @throws Exception
+     * Поиск связанный записей с моделью Diagnosis и обновление их
+     * @param Diagnosis $diagnosis Модель, данные которой необходимо обновить
+     * @param Request $request Данные из запроса
+     * @return bool Вернет true в случае успеха
+     * @throws Exception Выбросит исключение в случае неудачи
      */
     public function update(Diagnosis $diagnosis, Request $request): bool
     {

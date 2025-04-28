@@ -6,18 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\Api\ApiTokenService;
 use Exception;
-use http\Env\Response;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
+/**
+ * Работа с токеном пользователя
+ */
 class ApiTokenController extends Controller
 {
     /**
-     * @throws Exception
+     * Удаление всех токенов у авторизированного пользователя
+     * и создание нового
+     * @return RedirectResponse Возвращает редирект профиля пользователя
+     * с блоком, в котором отображается его новый созданный токен.
+     * @throws Exception Возвращает редирект профиля пользователя
+     *  с блоком, в котором отображается ошибка создания токена.
      */
     public function createToken(): RedirectResponse
     {
@@ -29,6 +33,11 @@ class ApiTokenController extends Controller
         }
     }
 
+    /**
+     * Удаляет все токены авторизированного пользователя и создает ему новый
+     * @return JsonResponse Возвращает json ответ с токеном пользователя либо с ошибкой
+     * его генерации
+     */
     public function getToken(): JsonResponse
     {
         try {

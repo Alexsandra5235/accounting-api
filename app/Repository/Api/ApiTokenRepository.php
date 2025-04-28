@@ -7,23 +7,29 @@ use App\Models\User;
 use Exception;
 use Illuminate\Auth\Passwords\TokenRepositoryInterface;
 
+/**
+ * Реализует работу с токеном пользователя
+ */
 class ApiTokenRepository implements ApiTokenInterface
 {
     /**
-     * Create a new class instance.
+     * Создание токена пользователя
+     * @param User $user Пользователь, для которого
+     * будет создан токен
+     * @return string Возвращает токен пользователя
      */
-    public function __construct()
-    {
-        //
-    }
-
     public function createToken(User $user): string
     {
         return $user->createToken('api-token')->plainTextToken;
     }
 
     /**
-     * @throws Exception
+     * Удаляет все токены пользователя
+     * @param User $user Пользователь, у которого
+     * будут удалены все токены
+     * @return bool Возвращает true, если успех
+     * @throws Exception Возвращает исключение, если
+     * оно возникло
      */
     public function deleteToken(User $user): bool
     {
