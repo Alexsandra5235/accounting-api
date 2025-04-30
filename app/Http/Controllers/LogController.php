@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Logs\Log;
+use App\Services\Chart\ChartService;
 use App\Services\LogDischargeService;
 use App\Services\LogService;
 use Exception;
@@ -88,5 +89,15 @@ class LogController extends Controller
     {
         $logs = app(LogService::class)->findByName($request);
         return response()->json($logs);
+    }
+    public function grouping(Request $request): JsonResponse
+    {
+        try {
+            $admissions = app(ChartService::class)->getAdmissions($request);
+            $discharges = app(ChartService::class)->getDischarges($request);
+            return response()->json(['admissions' => $admissions, 'discharges' => $discharges]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
     }
 }

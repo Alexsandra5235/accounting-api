@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repository\Api\ApiTokenRepository;
+use App\Repository\Chart\ChartRepository;
 use App\Repository\ClassifiersRepository;
 use App\Repository\DiagnosisRepository;
 use App\Repository\LogDischargeRepository;
@@ -11,6 +12,7 @@ use App\Repository\LogRejectRepository;
 use App\Repository\LogRepository;
 use App\Repository\PatientRepository;
 use App\Services\Api\ApiTokenService;
+use App\Services\Chart\ChartService;
 use App\Services\ClassifiersService;
 use App\Services\DiagnosisService;
 use App\Services\LogDischargeService;
@@ -59,6 +61,10 @@ class AppServiceProvider extends ServiceProvider
             return new ApiTokenRepository();
         });
 
+        $this->app->singleton(ChartRepository::class, function () {
+            return new ChartRepository();
+        });
+
         $this->app->singleton(LogReceiptService::class, function () {
             return new LogReceiptService();
         });
@@ -89,6 +95,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(ApiTokenService::class, function () {
             return new ApiTokenService();
+        });
+
+        $this->app->singleton(ChartService::class, function () {
+            return new ChartService();
         });
     }
 

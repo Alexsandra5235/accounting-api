@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApiTokenController;
 use App\Http\Controllers\LogController;
+use App\Repository\Chart\ChartRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,5 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/log/{id}', [LogController::class, 'update'])->name('log.update');
     Route::delete('/log/{id}', [LogController::class, 'destroy'])->name('log.destroy');
     Route::post('/log/search', [LogController::class, 'findByName'])->name('log.search');
+
+    Route::post('/grouping',[LogController::class,'grouping']);
 });
 
