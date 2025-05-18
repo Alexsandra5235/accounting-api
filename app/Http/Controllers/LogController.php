@@ -95,6 +95,11 @@ class LogController extends Controller
         try {
             $admissions = app(ChartService::class)->getAdmissions($request);
             $discharges = app(ChartService::class)->getDischarges($request);
+            $allMonths = array_unique(array_merge(array_keys($admissions->toArray()), array_keys($discharges->toArray())));
+            foreach ($allMonths as $month) {
+                $admissions[$month] = $admissions[$month] ?? 0;
+                $discharges[$month] = $discharges[$month] ?? 0;
+            }
             return response()->json(['admissions' => $admissions, 'discharges' => $discharges]);
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 400);
