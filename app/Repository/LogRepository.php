@@ -89,6 +89,9 @@ class LogRepository implements LogInterface, DeleteInterface
                 app(LogRejectService::class)->update($request, $id);
                 app(LogDischargeService::class)->update($request, $id);
                 app(PatientService::class)->update($request, $id);
+                app(LogService::class)->findByID($id)->update([
+                    'updated_at' => now(),
+                ]);
                 return true;
             });
         } catch (Exception $exception) {

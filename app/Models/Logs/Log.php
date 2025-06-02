@@ -31,6 +31,12 @@ class Log extends Model
         'log_discharge_id',
         'log_reject_id',
         'patient_id',
+        'updated_at',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     /**
