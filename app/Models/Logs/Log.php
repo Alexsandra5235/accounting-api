@@ -34,11 +34,6 @@ class Log extends Model
         'updated_at',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s',
-    ];
-
     /**
      * @return BelongsTo
      */
