@@ -11,6 +11,17 @@
 
 Данный сервис предоставляет методы для работы с данными о пациентах. Для использования api необходиомо получить ключ доступа после регистарции в сервисе.
 
+## Разворачиваем
+
+1. composer install
+2. npm install
+3. Создаем .env
+4. php artisan key:generate
+5. Настройки БД в .env
+6. php artisan migrate
+7. php artisan db:seed
+8. npm run dev
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
