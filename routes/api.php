@@ -19,5 +19,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/log/search', [LogController::class, 'findByName'])->name('log.search');
 
     Route::post('/grouping',[LogController::class,'grouping']);
+
+    Route::get('/patients/current', [LogController::class, 'currentPatient']);
+    Route::get('/patients/today/receipt', [LogController::class, 'todayReceipt']);
+    Route::get('/patients/today/discharge', [LogController::class, 'todayDischarge']);
+
 });
 

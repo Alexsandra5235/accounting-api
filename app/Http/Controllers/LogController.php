@@ -105,4 +105,31 @@ class LogController extends Controller
             return response()->json(['error' => $exception->getMessage()], 400);
         }
     }
+
+    public function currentPatient(): JsonResponse
+    {
+        try {
+            return response()->json(app(ChartService::class)->getCurrentPatients());
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
+    }
+
+    public function todayReceipt(): JsonResponse
+    {
+        try {
+            return response()->json(app(ChartService::class)->getTodayReceipt());
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
+    }
+
+    public function todayDischarge(): JsonResponse
+    {
+        try {
+            return response()->json(app(ChartService::class)->getTodayDischarge());
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
+    }
 }

@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Api\ApiTokenController;
 use App\Http\Controllers\ProfileController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

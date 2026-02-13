@@ -29,6 +29,32 @@ class ChartRepository implements ChartInterface
             ->pluck('count', 'period');
     }
 
+    public function getCurrentPatient(): Collection
+    {
+        return Log::query()->selectRaw("COUNT(*) as count")
+            ->join('log_discharges', 'logs.log_discharge_id', '=', 'log_discharges.id')
+            ->whereNull('log_discharges.datetime_discharge')
+            ->pluck('count');
+    }
+
+    public function getTodayReceipt(): Collection
+    {
+        return Log::query()->selectRaw("COUNT(*) as count")
+            ->join('log_receipts', 'logs.log_receipt_id', '=', 'log_receipts.id')
+            ->whereNotNull('log_receipts.date_receipt')
+            ->whereToday('log_receipts.date_receipt')
+            ->pluck('count');
+    }
+
+    public function getTodayDischarge(): Collection
+    {
+        return Log::query()->selectRaw("COUNT(*) as count")
+            ->join('log_discharges', 'logs.log_discharge_id', '=', 'log_discharges.id')
+            ->whereNotNull('log_discharges.datetime_discharge')
+            ->whereToday('log_discharges.datetime_discharge')
+            ->pluck('count');
+    }
+
     /**
      * Группирует данные по дате и кол-ву выписанных пациентов
      * @param Request $request Параметр группировки
