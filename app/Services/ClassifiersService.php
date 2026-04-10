@@ -7,6 +7,7 @@ use App\Models\Patient\Diagnosis;
 use App\Repository\ClassifiersRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Сервис для работы с моделью Classifiers
@@ -61,6 +62,22 @@ class ClassifiersService
             app(ClassifiersRepository::class)->updateWound($diagnosis, $request);
             app(ClassifiersRepository::class)->updateState($diagnosis, $request);
             return true;
+        } catch (Exception $exception) {
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+    /**
+     * Получение коллекции записей у которых есть совпадение по коду или значению
+     * @param string $query
+     * @param int|null $limit
+     * @return Collection
+     * @throws Exception
+     */
+    public function findByCodeOrValue(string $query, ?int $limit): Collection
+    {
+        try {
+            return app(ClassifiersRepository::class)->getByCodeOrValue($query, $limit);
         } catch (Exception $exception) {
             throw new Exception($exception->getMessage());
         }

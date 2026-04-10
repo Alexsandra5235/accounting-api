@@ -8,6 +8,7 @@ use App\Models\Patient\Classifiers;
 use App\Models\Patient\Diagnosis;
 use app\Traits\HasLog;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 /**
@@ -98,6 +99,25 @@ class ClassifiersRepository implements ClassifiersInterface, DeleteInterface
                 'value' => $request->input('wound_value'),
             ]);
             return true;
+        } catch (Exception $exception) {
+            throw new Exception($exception->getMessage());
+        }
+    }
+
+    /**
+     * Получение коллекции записей у которых есть совпадение по коду или значению
+     * @param string $query
+     * @return Collection
+     * @throws Exception
+     */
+    public function getByCodeOrValue(string $query, ?int $limit): Collection
+    {
+        try {
+            return Classifiers::query()
+                ->whereLike('code', '%' . $query . '%')
+                ->orWhereLike('value', '%' . $query . '%')
+                ->limit($limit ?? 10)
+                ->get();
         } catch (Exception $exception) {
             throw new Exception($exception->getMessage());
         }

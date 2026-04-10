@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Logs\Log;
 use App\Services\Chart\ChartService;
+use App\Services\ClassifiersService;
 use App\Services\LogDischargeService;
 use App\Services\LogService;
 use Exception;
@@ -128,6 +129,16 @@ class LogController extends Controller
     {
         try {
             return response()->json(app(ChartService::class)->getTodayDischarge());
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
+    }
+
+    public function classifiers(Request $request): JsonResponse
+    {
+        try {
+            return response()->json(app(ClassifiersService::class)
+                ->findByCodeOrValue($request->input('query'), $request->input('limit')));
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 400);
         }
