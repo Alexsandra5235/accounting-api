@@ -24,9 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/patients/today/receipt', [LogController::class, 'todayReceipt']);
     Route::get('/patients/today/discharge', [LogController::class, 'todayDischarge']);
 
-
+    Route::post('/classifiers', [LogController::class, 'classifiers']);
 });
-
-Route::post('/classifiers', [LogController::class, 'classifiers']);
 
 
