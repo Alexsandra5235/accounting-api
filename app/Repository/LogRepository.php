@@ -135,7 +135,8 @@ class LogRepository implements LogInterface, DeleteInterface
             'patient.diagnosis.state',
             'patient.diagnosis.wound',
         ])->whereHas('patient', function ($query) use ($name) {
-            $query->where('name', 'like', '%' . $name . '%');
+            $query->whereLike('name', '%' . $name . '%')
+                  ->orWhereLike('medical_card', '%' . $name . '%');
         })->get();
     }
 }
